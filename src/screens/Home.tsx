@@ -1,9 +1,37 @@
+import { useState } from "react";
 import { HStack, Heading, Input, ScrollView, VStack } from "native-base";
 import { CardItem } from "../Components/CardItem";
-import { TouchableOpacity } from "react-native";
+import { Alert, TouchableOpacity } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../configs/firebaseConfig";
+import { ShoppingList } from "../Components/ShoppingList";
+
 export function Home() {
+
+    const [name, setName] = useState("");
+    const [quantity, setQuantity] = useState(0);
+
+    async function handleAddDocument() {
+        try {
+            const docRef = await addDoc(collection(db, "products"), {
+                name,
+                quantity
+            });
+
+            setName("")
+            setQuantity(0)
+
+            console.log("Document written with ID: ", docRef.id);
+
+            Alert.alert("Sucesso", "Produto cadastrado com sucesso!");
+
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    }
+
     return (
         <VStack w="full" h="full" bg="white">
             <HStack
@@ -18,21 +46,23 @@ export function Home() {
             </HStack>
 
             <HStack
-             my={4} 
-             px={4} 
-             space={1}
-             >
+                my={4}
+                px={4}
+                space={1}
+            >
                 <Input
                     flex={1}
                     bg="gray.100"
-                    color="white"
+                    color="black"
                     borderColor="gray.100"
                     _focus={{
                         bg: "#f4f4f5",
-                        borderColor : "#f4f4f5"
+                        borderColor: "#f4f4f5"
                     }}
-                    placeholder="precisamos"
+                    placeholder="Precisamos"
                     fontSize="md"
+                    onChangeText={setName}
+                    value={name}
                 >
 
                 </Input>
@@ -41,14 +71,17 @@ export function Home() {
                     bg="gray.100"
                     keyboardType="numeric"
                     textAlign="center"
-                    color="white"
+                    color="black"
                     borderColor="gray.100"
                     _focus={{
                         bg: "#f4f4f5",
-                        borderColor : "#f4f4f5"
+                        borderColor: "#f4f4f5"
                     }}
                     fontSize="md"
                     placeholder="1"
+
+                    onChangeText={(text) => setQuantity(Number(text))}
+                    value={String(quantity)}
                 >
 
 
@@ -58,22 +91,18 @@ export function Home() {
                     width: 64,
                     backgroundColor: "#00875F",
                     borderRadius: 5,
-                    alignItems:"center",
+                    alignItems: "center",
                     justifyContent: "center"
-                }}>
+                }}
+                    onPress={handleAddDocument}
+                >
                     <MaterialIcons name="add-shopping-cart" size={24} color="white" />
 
 
                 </TouchableOpacity>
             </HStack>
 
-            <ScrollView px={4} mb={4}>
-                <CardItem />
-                <CardItem />
-                <CardItem />
-                <CardItem />
-                <CardItem />
-            </ScrollView>
+            <ShoppingList />
         </VStack>
     )
 }
