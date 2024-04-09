@@ -38,16 +38,6 @@ export function Receipts() {
                 <Text textAlign="center" mt={2} mb={2} color="gray.400">Informações da foto</Text>
             </VStack>
 
-            <ScrollView px={4} mb={4}>
-
-                <CardItem></CardItem>
-                <CardItem></CardItem>
-                <CardItem></CardItem>
-                <CardItem></CardItem>
-                <CardItem></CardItem>
-                <CardItem></CardItem>
-            </ScrollView>
-
         </VStack >
     )
 }

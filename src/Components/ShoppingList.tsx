@@ -20,7 +20,7 @@ export function ShoppingList() {
     useEffect(() => {
 
         const unsubscribe = onSnapshot(
-            query(collection(db, "products"), orderBy("quantity", "desc"), limit(2)), 
+            query(collection(db, "products"), orderBy("name", "asc")),
             (querySnapshot) => {
                 const data = querySnapshot.docs.map(doc => ({
                     id: doc.id,
@@ -28,7 +28,7 @@ export function ShoppingList() {
                     done: doc.data().done,
                     quantity: doc.data().quantity
                 }));
-        
+
                 setProducts(data);
             }
         );
@@ -46,8 +46,7 @@ export function ShoppingList() {
             renderItem={({ item }) => (
 
                 <CardItem
-                    name={item.name}
-                    quantity={item.quantity}
+                    data={item}
                 />
             )}
 

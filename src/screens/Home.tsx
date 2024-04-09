@@ -17,13 +17,12 @@ export function Home() {
         try {
             const docRef = await addDoc(collection(db, "products"), {
                 name,
-                quantity
+                quantity,
+                done : false,
             });
 
             setName("")
             setQuantity(0)
-
-            console.log("Document written with ID: ", docRef.id);
 
             Alert.alert("Sucesso", "Produto cadastrado com sucesso!");
 
