@@ -1,4 +1,4 @@
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, limit, onSnapshot, orderBy, query } from "firebase/firestore";
 import { FlatList } from "native-base";
 import { db } from "../configs/firebaseConfig";
 import { useEffect, useState } from "react";
@@ -19,19 +19,19 @@ export function ShoppingList() {
 
     useEffect(() => {
 
-        const unsubscribe = onSnapshot(collection(db, "products"), (querySnapshot) => {
-
-            const data = querySnapshot.docs.map(doc => {
-                return {
+        const unsubscribe = onSnapshot(
+            query(collection(db, "products"), orderBy("quantity", "desc"), limit(2)), 
+            (querySnapshot) => {
+                const data = querySnapshot.docs.map(doc => ({
                     id: doc.id,
                     name: doc.data().name,
                     done: doc.data().done,
                     quantity: doc.data().quantity
-                }
-            })
-
-            setProducts(data);
-        })
+                }));
+        
+                setProducts(data);
+            }
+        );
 
         return () => unsubscribe();
 
