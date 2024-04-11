@@ -1,9 +1,38 @@
-import { Box, HStack, Heading, Input, ScrollView, Text, VStack } from "native-base";
-import { CardItem } from "../Components/CardItem";
-import { TouchableOpacity } from "react-native";
-import { MaterialIcons } from '@expo/vector-icons';
+import { useEffect, useState } from "react";
+import { FlatList, HStack, Heading, Input, Text, VStack } from "native-base";
+import { getStorage, ref, listAll } from "firebase/storage";
+import { ReceiptCard } from "../Components/ReceiptCard";
+
+
+type PropsReceipts = {
+    name: string;
+    path: string;
+}
 
 export function Receipts() {
+
+    const [receipts, setReceipts] = useState<PropsReceipts[]>([]);
+
+    useEffect(() => {
+
+        const storage = getStorage();
+        const storageRef = ref(storage, "images/")
+
+        listAll(storageRef).then(listFiles => {
+            const files: PropsReceipts[] = [];
+
+            listFiles.items.forEach(file => {
+                files.push({
+                    name: file.name,
+                    path: file.fullPath,
+                })
+            })
+
+            setReceipts(files)
+            console.log(files)
+        })
+    }, [])
+
     return (
         <VStack w="full" h="full" bg="white">
             <HStack
@@ -37,6 +66,17 @@ export function Receipts() {
 
                 <Text textAlign="center" mt={2} mb={2} color="gray.400">Informações da foto</Text>
             </VStack>
+
+            <FlatList
+                data={receipts}
+                keyExtractor={item => item.name}
+                renderItem={({ item }) => (
+                    <ReceiptCard data={item} />
+                )}
+
+                px={4}
+                mb={4}
+            />
 
         </VStack >
     )
