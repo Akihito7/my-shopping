@@ -36,17 +36,21 @@ export function CardItem({ data } : {data : PropsCardItem}) {
             borderRadius={5}
             alignItems="center"
             mt={2}
+            
         >
             <VStack flex={1}>
                 <Heading
                     fontSize="lg"
                     strikeThrough={data.done ? true : false}
                     isTruncated
+                    textTransform="capitalize"
                 >
                     {data.name}
                 </Heading>
 
-                <Text>
+                <Text
+                
+                >
                     Quantidade: {data.quantity}
                 </Text>
 

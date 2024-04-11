@@ -18,7 +18,7 @@ export function Home() {
             const docRef = await addDoc(collection(db, "products"), {
                 name,
                 quantity,
-                done : false,
+                done: false,
             });
 
             setName("")
@@ -77,10 +77,12 @@ export function Home() {
                         borderColor: "#f4f4f5"
                     }}
                     fontSize="md"
-                    placeholder="1"
+                    placeholder="0"
+                    onChangeText={(text) => {
+                        setQuantity(Number(text))}}
 
-                    onChangeText={(text) => setQuantity(Number(text))}
-                    value={String(quantity)}
+                    value={quantity === 0 ? "" : String(quantity)}
+
                 >
 
 

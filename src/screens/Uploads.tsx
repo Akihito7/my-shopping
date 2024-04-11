@@ -1,7 +1,12 @@
-import { Button, HStack, Heading, Input, ScrollView, Text, VStack } from "native-base";
+import { useState } from "react";
+import { Button, HStack, Heading, Image, Input, ScrollView, Text, VStack } from "native-base";
 import { CardItem } from "../Components/CardItem";
+import { Photo } from "../Components/Photo";
 
 export function Uploads() {
+
+    const [image, setImage] = useState("");
+
     return (
         <VStack w="full" h="full" bg="white">
             <HStack
@@ -16,22 +21,8 @@ export function Uploads() {
             </HStack>
 
             <VStack px={10} mt={8}>
-                <Input
-                    h={56}
-                    w="full"
-                    borderStyle="dashed"
-                    borderColor="gray.300"
-                    borderWidth={3}
-                    placeholder="clique aqui para adicionar ou trocar a foto"
-                    multiline={true}
-                    fontSize="xl"
-                    textAlign="center"
-                    _focus={{
-                        backgroundColor: "white",
-                        borderColor: "gray.300"
-                    }}
 
-                />
+                <Photo uri={image}/>
 
                 <Button
                     h={16}
