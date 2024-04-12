@@ -1,14 +1,18 @@
 import { HStack, Heading, Text, VStack } from "native-base";
 import { TouchableOpacity } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 
 type PropsCardItem = {
-    name: string;
-    path: string;
+    data: {
+        name: string;
+        path: string;
+    }
+    onShow: (path: string) => void;
 }
 
-export function ReceiptCard({ data }: { data: PropsCardItem }) {
+export function ReceiptCard({ data, onShow }: PropsCardItem) {
 
     return (
         <HStack
@@ -45,22 +49,6 @@ export function ReceiptCard({ data }: { data: PropsCardItem }) {
                 <TouchableOpacity
 
                     style={{
-                        backgroundColor: "#00875F",
-                        borderRadius: 5,
-                        height: 40,
-                        width: 40,
-                        alignItems: "center",
-                        justifyContent: "center"
-                    }}
-
-                >
-                    <MaterialIcons name="done" size={24} color="white" />
-
-                </TouchableOpacity>
-
-                <TouchableOpacity
-
-                    style={{
                         backgroundColor: "red",
                         borderRadius: 5,
                         height: 40,
@@ -71,6 +59,26 @@ export function ReceiptCard({ data }: { data: PropsCardItem }) {
 
                 >
                     <MaterialIcons name="delete" size={24} color="white" />
+                    
+
+                </TouchableOpacity>
+
+                <TouchableOpacity
+
+                    style={{
+                        backgroundColor: "#00875F",
+                        borderRadius: 5,
+                        height: 40,
+                        width: 40,
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}
+
+                    onPress={() => onShow(data.path)}
+
+                >
+                    
+                    <AntDesign name="eye" size={24} color="white" />
 
                 </TouchableOpacity>
             </VStack>

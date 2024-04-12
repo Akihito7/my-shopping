@@ -54,7 +54,6 @@ export function Uploads() {
 
     }
     
-
     return (
         <VStack w="full" h="full" bg="white">
             <HStack
@@ -70,7 +69,7 @@ export function Uploads() {
 
             <VStack px={10} mt={8}>
 
-                <Photo uri={image} onPress={handleSetImage} />
+                <Photo uri={image} onPress={handleSetImage} title="Clique aqui para adicionar uma foto." />
 
                 <Button
 

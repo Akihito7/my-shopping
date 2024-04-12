@@ -2,11 +2,12 @@ import { Box, Image, Text } from "native-base"
 import { TouchableOpacity } from "react-native";
 
 type PropsPhoto = {
+    title : string;
     uri?: string;
-    onPress: () => void;
+    onPress?: () => void;
 }
 
-export function Photo({ uri, onPress }: PropsPhoto) {
+export function Photo({ title, uri, onPress }: PropsPhoto) {
     return (
         <>
             {
@@ -28,7 +29,7 @@ export function Photo({ uri, onPress }: PropsPhoto) {
                                 color="gray.400"
                                 textAlign="center"
                             >
-                                Clique aqui para adicionar uma foto.
+                                {title}
                             </Text>
                         </Box>
                     </TouchableOpacity>
@@ -38,8 +39,6 @@ export function Photo({ uri, onPress }: PropsPhoto) {
                     <Image
                         h={56}
                         w="full"
-                        fontSize="xl"
-                        textAlign="center"
                         source={{ uri }}
                         alt="foto do comprovante"
                         borderRadius={5}
