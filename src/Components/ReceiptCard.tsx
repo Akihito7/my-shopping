@@ -10,9 +10,10 @@ type PropsCardItem = {
         path: string;
     }
     onShow: (path: string) => void;
+    handleDelete : (path : string) => void;
 }
 
-export function ReceiptCard({ data, onShow }: PropsCardItem) {
+export function ReceiptCard({ data, onShow, handleDelete }: PropsCardItem) {
 
     return (
         <HStack
@@ -55,7 +56,11 @@ export function ReceiptCard({ data, onShow }: PropsCardItem) {
                         width: 40,
                         alignItems: "center",
                         justifyContent: "center"
+
+                    
                     }}
+
+                    onPress={() => handleDelete(data.path)}
 
                 >
                     <MaterialIcons name="delete" size={24} color="white" />

@@ -4,7 +4,7 @@ import { Photo } from "../Components/Photo";
 import * as ImagePicker from 'expo-image-picker';
 
 
-import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getMetadata, uploadString, updateMetadata, getDownloadURL } from "firebase/storage";
 import { Alert } from "react-native";
 
 export function Uploads() {
@@ -48,6 +48,19 @@ export function Uploads() {
                 setProgress(0)
                 setBytesTransfered("")
             }
+        })
+
+        uploadTask.then(async () => {
+       
+            const downloadURL = await getDownloadURL(storageRef);
+
+            const metadata = await getMetadata(storageRef);
+        
+            metadata.customMetadata = {
+                imageURL: downloadURL
+            };
+
+            await updateMetadata(storageRef, metadata);
         })
 
 

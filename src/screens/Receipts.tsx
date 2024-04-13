@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { FlatList, HStack, Heading, Input, Text, VStack } from "native-base";
-import { getDownloadURL, getStorage, ref, listAll } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, listAll, deleteObject } from "firebase/storage";
 import { ReceiptCard } from "../Components/ReceiptCard";
 import { Photo } from "../Components/Photo";
-
+import { Alert } from "react-native";
+import { storage } from "../configs/firebaseConfig";
 
 
 
@@ -31,9 +32,20 @@ export function Receipts() {
         }
     }
 
+    async function handleDelete(path: string) {
 
+        const storageRef = ref(storage, path)
 
-    useEffect(() => {
+        try {
+            await deleteObject(storageRef);
+            Alert.alert("arquivo excluido com sucesso")
+            fetchReceipts()
+        } catch (error) {
+            console.error("Erro ao excluir a foto:", error);
+        }
+    }
+
+    async function fetchReceipts() {
 
         const storage = getStorage();
         const storageRef = ref(storage, "images/")
@@ -50,6 +62,12 @@ export function Receipts() {
 
             setReceipts(files)
         })
+    }
+
+
+
+    useEffect(() => {
+        fetchReceipts()
     }, [])
 
     return (
@@ -77,7 +95,7 @@ export function Receipts() {
                     <ReceiptCard
                         data={item}
                         onShow={handlePhotoSelected}
-
+                        handleDelete={handleDelete}
                     />
                 )}
 
